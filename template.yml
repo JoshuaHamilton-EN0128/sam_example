@@ -64,7 +64,23 @@ Resources:
             Method: GET
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
+  
+  deleteItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/delete-item.deleteitemHandler
+      Description: A simple example includes a HTTP delete method to delete one item from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: Josh-Music-1
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{band_id}
+            Method: DELETE
+            
   # This is a Lambda function config associated with the source code: put-item.js
   putItemFunction:
     Type: AWS::Serverless::Function
